@@ -8,6 +8,9 @@ import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader.js';
 /**
  * debug
  */
+const debugObject = {
+    clearColor: '#201919',
+};
 const gui = new dat.GUI();
 
 // canvas
@@ -101,12 +104,17 @@ const renderer = new THREE.WebGLRenderer({
 renderer.setSize(sizes.w, sizes.h);
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 renderer.outputEncoding = THREE.sRGBEncoding;
+renderer.setClearColor(debugObject.clearColor);
 
 /**
  * controls
  */
 const controls = new OrbitControls(camera, canvas);
 controls.enableDamping = true;
+
+gui.addColor(debugObject, 'clearColor').onChange(() =>
+    renderer.setClearColor(debugObject.clearColor)
+);
 
 /**
  * helpers
