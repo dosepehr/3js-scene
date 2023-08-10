@@ -36,6 +36,32 @@ camera.position.z = 4;
 scene.add(camera);
 
 /**
+ * particles
+ */
+const particleGeometry = new THREE.BufferGeometry();
+const particlesCount = 30;
+const positionArray = new Float32Array(particlesCount * 3);
+
+for (let i = 0; i < particlesCount; i++) {
+    positionArray[i * 3 + 0] = (Math.random() - 0.5) * 4;
+    positionArray[i * 3 + 1] = Math.random() * 1.5;
+    positionArray[i * 3 + 2] = (Math.random() - 0.5) * 4;
+}
+particleGeometry.setAttribute(
+    'position',
+    new THREE.BufferAttribute(positionArray, 3)
+);
+/**
+ * material
+ */
+const particlesMaterial = new THREE.PointsMaterial({
+    size: 0.1,
+    sizeAttenuation: true,
+});
+const fireflies = new THREE.Points(particleGeometry, particlesMaterial);
+scene.add(fireflies);
+
+/**
  * loaders
  */
 // Texture loader
