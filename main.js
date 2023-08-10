@@ -51,6 +51,8 @@ gltfLoader.setDRACOLoader(dracoLoader);
  */
 //baked material
 const bakedTexture = textureLoader.load('baked1.jpg');
+const poleLightMaterial = new THREE.MeshBasicMaterial({ color: '#ffffe5' });
+const portalLightMaterial = new THREE.MeshBasicMaterial({ color: '#fff' });
 bakedTexture.flipY = false;
 bakedTexture.encoding = THREE.sRGBEncoding;
 const bakedMaterial = new THREE.MeshBasicMaterial({ map: bakedTexture });
@@ -61,6 +63,25 @@ gltfLoader.load('portal.glb', (gltf) => {
     gltf.scene.traverse((child) => {
         child.material = bakedMaterial;
     });
+    const portalLight = gltf.scene.children.find(
+        (child) => child.name === 'portalLight'
+    );
+    const poleLightA = gltf.scene.children.find(
+        (child) => child.name === 'poleLightA'
+    );
+    const poleLightB = gltf.scene.children.find(
+        (child) => child.name === 'poleLightB'
+    );
+
+    portalLight.material = portalLightMaterial;
+    portalLight.material.side = THREE.DoubleSide;
+
+    poleLightA.material = poleLightMaterial;
+    poleLightA.material.side = THREE.DoubleSide;
+
+    poleLightB.material = poleLightMaterial;
+    poleLightB.material.side = THREE.DoubleSide;
+
     scene.add(gltf.scene);
 });
 
