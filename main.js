@@ -47,14 +47,23 @@ const gltfLoader = new GLTFLoader();
 gltfLoader.setDRACOLoader(dracoLoader);
 
 /**
- * cube
+ * materials
  */
-const cube = new THREE.Mesh(
-    new THREE.BoxGeometry(1, 1, 1),
-    new THREE.MeshBasicMaterial({ color: 'white' })
-);
+//baked material
+const bakedTexture = textureLoader.load('baked1.jpg');
+bakedTexture.flipY = false;
+bakedTexture.encoding = THREE.sRGBEncoding;
+const bakedMaterial = new THREE.MeshBasicMaterial({ map: bakedTexture });
+/**
+ * model
+ */
+gltfLoader.load('portal.glb', (gltf) => {
+    gltf.scene.traverse((child) => {
+        child.material = bakedMaterial;
+    });
+    scene.add(gltf.scene);
+});
 
-scene.add(cube);
 /**
  * renderer
  */
@@ -64,6 +73,7 @@ const renderer = new THREE.WebGLRenderer({
 });
 renderer.setSize(sizes.w, sizes.h);
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+renderer.outputEncoding = THREE.sRGBEncoding;
 
 /**
  * controls
