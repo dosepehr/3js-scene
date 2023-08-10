@@ -60,9 +60,13 @@ const bakedMaterial = new THREE.MeshBasicMaterial({ map: bakedTexture });
  * model
  */
 gltfLoader.load('portal.glb', (gltf) => {
-    gltf.scene.traverse((child) => {
-        child.material = bakedMaterial;
-    });
+    // gltf.scene.traverse((child) => {
+    //     child.material = bakedMaterial;
+    // });
+    const bakedMesh = gltf.scene.children.find(
+        (child) => child.name == 'baked'
+    );
+
     const portalLight = gltf.scene.children.find(
         (child) => child.name === 'portalLight'
     );
@@ -72,6 +76,8 @@ gltfLoader.load('portal.glb', (gltf) => {
     const poleLightB = gltf.scene.children.find(
         (child) => child.name === 'poleLightB'
     );
+
+    bakedMesh.material = bakedMaterial;
 
     portalLight.material = portalLightMaterial;
     portalLight.material.side = THREE.DoubleSide;
