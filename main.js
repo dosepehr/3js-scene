@@ -2,6 +2,9 @@ import * as THREE from 'three';
 import * as dat from 'lil-gui';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { handleResize, handleFullscreen } from './helpers/helpers';
+import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
+import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader.js';
+
 /**
  * debug
  */
@@ -28,6 +31,20 @@ camera.position.x = 4;
 camera.position.y = 2;
 camera.position.z = 4;
 scene.add(camera);
+
+/**
+ * loaders
+ */
+// Texture loader
+const textureLoader = new THREE.TextureLoader();
+
+// Draco loader
+const dracoLoader = new DRACOLoader();
+dracoLoader.setDecoderPath('draco/');
+
+// GLTF loader
+const gltfLoader = new GLTFLoader();
+gltfLoader.setDRACOLoader(dracoLoader);
 
 /**
  * cube
