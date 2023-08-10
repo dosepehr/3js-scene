@@ -1,14 +1,14 @@
 import * as THREE from 'three';
 import * as dat from 'lil-gui';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
-
+import { handleResize, handleFullscreen } from './helpers/helpers';
 /**
  * debug
  */
 const gui = new dat.GUI();
 
 // canvas
-const canvas = document.querySelector('canvas.webgl')
+const canvas = document.querySelector('canvas.webgl');
 
 /**
  * scene
@@ -52,9 +52,13 @@ renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
  * controls
  */
 const controls = new OrbitControls(camera, canvas);
-
 controls.enableDamping = true;
 
+/**
+ * helpers
+ */
+window.onresize = () => handleResize(sizes, camera, renderer);
+window.ondblclick = () => handleFullscreen(canvas);
 const tick = () => {
     controls.update();
     renderer.render(scene, camera);
